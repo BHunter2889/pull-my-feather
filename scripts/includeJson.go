@@ -14,14 +14,14 @@ import (
 // to read a config.json file into the code as well, for example.
 func main() {
 	fs, _ := ioutil.ReadDir(".")
-	out, _ := os.Create("pillow.go")
+	out, _ := os.Create("apl.go")
 	if _, err := out.Write([]byte("package main \n\nconst (\n")); err != nil {
 		log.Println(err)
 	}
 
 	for _, f := range fs {
-		if f.Name() == "output.json" {
-			if _, err := out.Write([]byte("feathers = `")); err != nil {
+		if f.Name() == "pull-my-feather-apl.json" {
+			if _, err := out.Write([]byte("aplJson = `")); err != nil {
 				log.Println(err)
 			}
 			f, _ := os.Open(f.Name()) // Open file

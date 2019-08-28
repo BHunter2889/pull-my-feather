@@ -5,11 +5,10 @@ import (
 	crand "crypto/rand"
 	"encoding/binary"
 	"encoding/json"
-	"github.com/BHunter2889/da-fish-alexa/alexa"
+	"github.com/BHunter2889/go-alexa-devkit/alexa"
 	"github.com/aws/aws-lambda-go/lambda"
 	"log"
 	"math/rand"
-
 	"time"
 )
 
@@ -65,8 +64,18 @@ func HandlePullFeatherIntent(ctx context.Context, request alexa.Request) alexa.R
 	}
 	metaFeather := pillow.Feathers[rand.Intn(len(pillow.Feathers))]
 	log.Print(metaFeather)
+
+	date := metaFeather.Time.Format("Monday, Jan 2, 2006")
+	log.Print(date)
+
+	rd := alexa.Directive{}
+	if err := alexa.ExtractNewRenderDocDirectiveFromString("tickled-pink", aplJson, &rd); err != nil {
+		log.Print("ERROR READING APL TEMPLATE", err)
+	}
+
+	resp := alexa.NewAPLResponse("_SSML_PLACEHOLDER_", alexa.NewDirectivesList("Tickled Pink Award Winner", rd))
 	// TODO: Populate response
-	return alexa.Response{}
+	return resp
 }
 
 func Handler(ctx context.Context, request alexa.Request) (response alexa.Response, error error) {
