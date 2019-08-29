@@ -95,6 +95,7 @@ func HandlePullFeatherIntent(ctx context.Context, request alexa.Request) alexa.R
 	rd.SetBodyContentTitleText(metaFeather.Recipient)
 	rd.SetBodyContentSubtitle(fmt.Sprintf("Awarded By: %s", metaFeather.Author))
 	rd.SetBodyContentPrimaryText(metaFeather.Title)
+	rd.SetBodyContentSubheader(date)
 	rd.AddBodyContentBullets(metaFeather.Body)
 	rd.DataSources.TemplateData.Properties.SSML = ssml
 	rd.DataSources.TemplateData.Transformers = tl

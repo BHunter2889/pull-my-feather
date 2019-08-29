@@ -1,7 +1,7 @@
-package main 
+package main
 
 const (
-aplJson = `{
+	aplJson = `{
     "document": {
         "type": "APL",
         "version": "1.1",
@@ -17,14 +17,14 @@ aplJson = `{
             {
                 "description": "Stock color for the light theme",
                 "colors": {
-                    "colorTextPrimary": "#151920"
+                    "colorTextPrimary": "#565A5D"
                 }
             },
             {
                 "description": "Stock color for the dark theme",
                 "when": "${viewport.theme == 'dark'}",
                 "colors": {
-                    "colorTextPrimary": "#f0f1ef"
+                    "colorTextPrimary": "#DDDDDD"
                 }
             },
             {
@@ -32,7 +32,7 @@ aplJson = `{
                 "dimensions": {
                     "textSizeBody": 48,
                     "textSizeBodySecondary": 36,
-                    "textSizePrimary": 27,
+                    "textSizePrimary": 30,
                     "textSizeSecondary": 23,
                     "textSizeSecondaryHint": 25
                 }
@@ -53,7 +53,16 @@ aplJson = `{
                     "marginTop": 40,
                     "marginLeft": 60,
                     "marginRight": 60,
-                    "marginBottom": 40
+                    "marginBottom": 40,
+					"paddingLeft": 30,
+					"paddingLeft40": 40,
+					"paddingRight": 30,
+					"paddingRight72": 72,
+					"paddingBottom": 200,		
+					"paddingTop40": 40,
+					"paddingTop50": 50,
+					"primaryTextPaddingTop": 35,
+					"bulletPointPaddingTop": 10
                 }
             }
         ],
@@ -152,7 +161,7 @@ aplJson = `{
                     "items": [
                         {
                             "type": "Image",
-                            "source": "${payload.bodyTemplate3Data.image.sources[0].url}",
+                            "source": "${payload.bodyTemplateData.image.sources[0].url}",
                             "scale": "best-fill",
                             "width": "100vw",
                             "height": "100vh",
@@ -168,18 +177,18 @@ aplJson = `{
                                     "type": "Container",
                                     "direction": "column",
                                     "alignItems": "center",
-                                    "paddingLeft": 30,
-                                    "paddingRight": 30,
-                                    "paddingBottom": 200,
+                                    "paddingLeft": "@paddingLeft",
+                                    "paddingRight": "@paddingRight",
+                                    "paddingBottom": "@paddingBottom",
                                     "items": [
                                         {
                                             "type": "AlexaHeader",
-                                            "headerAttributionImage": "${payload.bodyTemplate3Data.logoUrl}",
-                                            "headerTitle": "${payload.bodyTemplate3Data.title}"
+                                            "headerAttributionImage": "${payload.bodyTemplateData.logoUrl}",
+                                            "headerTitle": "${payload.bodyTemplateData.title}"
                                         },
                                         {
                                             "type": "Text",
-                                            "text": "<b> Monday, August 26, 2019</b>",
+                                            "text": "<b>${payload.bodyTemplateData.textContent.subheader.text}</b>",
                                             "style": "textStylePrimary",
                                             "color": "#4dd2ff",
                                             "width": "90vw",
@@ -187,30 +196,30 @@ aplJson = `{
                                         },
                                         {
                                             "type": "Text",
-                                            "text": "<b>${payload.bodyTemplate3Data.textContent.title.text}</b>",
+                                            "text": "<b>${payload.bodyTemplateData.textContent.title.text}</b>",
                                             "style": "textStyleBody",
                                             "width": "90vw",
                                             "textAlign": "center"
                                         },
                                         {
                                             "type": "Text",
-                                            "text": "${payload.bodyTemplate3Data.textContent.subtitle.text}",
+                                            "text": "${payload.bodyTemplateData.textContent.subtitle.text}",
                                             "style": "textStylePrimary",
                                             "width": "90vw",
                                             "textAlign": "center"
                                         },
                                         {
                                             "type": "Text",
-                                            "text": "${payload.bodyTemplate3Data.textContent.primaryText.text}",
-                                            "paddingTop": 40,
+                                            "text": "${payload.bodyTemplateData.textContent.primaryText.text}",
+                                            "paddingTop": "@paddingTop40",
                                             "style": "textStylePrimary",
                                             "width": "90vw",
                                             "textAlign": "center"
                                         },
                                         {
                                             "type": "Text",
-                                            "text": "${payload.bodyTemplate3Data.textContent.bulletPoint.text}",
-                                            "paddingTop": 50,
+                                            "text": "${payload.bodyTemplateData.textContent.bulletPoints[0].text}",
+                                            "paddingTop": "@paddingTop50",
                                             "style": "textStylePrimary",
                                             "width": "90vw",
                                             "textAlign": "center"
@@ -228,7 +237,7 @@ aplJson = `{
                     "items": [
                         {
                             "type": "Image",
-                            "source": "${payload.bodyTemplate3Data.backgroundImage.sources[0].url}",
+                            "source": "${payload.bodyTemplateData.backgroundImage.sources[0].url}",
                             "scale": "best-fill",
                             "width": "100vw",
                             "height": "100vh",
@@ -236,19 +245,19 @@ aplJson = `{
                         },
                         {
                             "type": "AlexaHeader",
-                            "headerTitle": "${payload.bodyTemplate3Data.title}",
-                            "headerAttributionImage": "${payload.bodyTemplate3Data.logoUrl}"
+                            "headerTitle": "${payload.bodyTemplateData.title}",
+                            "headerAttributionImage": "${payload.bodyTemplateData.logoUrl}"
                         },
                         {
                             "type": "Container",
                             "direction": "row",
-                            "paddingLeft": 40,
-                            "paddingRight": 72,
+                            "paddingLeft": "@paddingLeft40",
+                            "paddingRight": "@paddingRight72",
                             "grow": 1,
                             "items": [
                                 {
                                     "type": "Image",
-                                    "source": "${payload.bodyTemplate3Data.image.sources[0].url}",
+                                    "source": "${payload.bodyTemplateData.image.sources[0].url}",
                                     "width": "35vw",
                                     "height": "65vh",
                                     "scale": "best-fit",
@@ -264,30 +273,32 @@ aplJson = `{
                                             "items": [
                                                 {
                                                     "type": "Text",
-                                                    "text": "<b>Monday, August 26, 2019</b>",
+                                                    "text": "<b>${payload.bodyTemplateData.textContent.subheader.text}</b>",
                                                     "style": "textStylePrimary",
                                                     "color": "#4dd2ff"
                                                 },
                                                 {
                                                     "type": "Text",
-                                                    "text": "<b>${payload.bodyTemplate3Data.textContent.title.text}</b>",
+                                                    "text": "<b>${payload.bodyTemplateData.textContent.title.text}</b>",
                                                     "style": "textStyleBody"
                                                 },
                                                 {
                                                     "type": "Text",
-                                                    "text": "${payload.bodyTemplate3Data.textContent.subtitle.text}",
+                                                    "text": "${payload.bodyTemplateData.textContent.subtitle.text}",
                                                     "style": "textStylePrimary"
                                                 },
                                                 {
                                                     "type": "Text",
-                                                    "text": "${payload.bodyTemplate3Data.textContent.primaryText.text}",
-                                                    "paddingTop": 35,
+                                                    "text": "${payload.bodyTemplateData.textContent.primaryText.text}",
+                                                    "paddingTop": "@primaryTextPaddingTop",
+													"paddingRight": "@paddingRight",
                                                     "style": "textStyleBodySecondary"
                                                 },
                                                 {
                                                     "type": "Text",
-                                                    "text": "${payload.bodyTemplate3Data.textContent.bulletPoint.text}",
-                                                    "paddingTop": 10,
+                                                    "text": "${payload.bodyTemplateData.textContent.bulletPoints[0].text}",
+                                                    "paddingTop": "@bulletPointPaddingTop",
+                                                    "paddingRight": "@paddingRight",
                                                     "style": "textStylePrimary"
                                                 }
                                             ]
@@ -302,7 +313,7 @@ aplJson = `{
         }
     },
     "datasources": {
-        "bodyTemplate3Data": {
+        "bodyTemplateData": {
             "type": "object",
             "objectId": "bt3Sample",
             "backgroundImage": {
@@ -311,13 +322,13 @@ aplJson = `{
                 "largeSourceUrl": null,
                 "sources": [
                     {
-                        "url": "https://d2o906d8ln7ui1.cloudfront.net/images/BT2_Background.png",
+                        "url": "https://1904upload.s3.amazonaws.com/1904diamonds_EDIT.png",
                         "size": "small",
                         "widthPixels": 0,
                         "heightPixels": 0
                     },
                     {
-                        "url": "https://d2o906d8ln7ui1.cloudfront.net/images/BT2_Background.png",
+                        "url": "https://1904upload.s3.amazonaws.com/1904diamonds_EDIT.png",
                         "size": "large",
                         "widthPixels": 0,
                         "heightPixels": 0
@@ -331,13 +342,13 @@ aplJson = `{
                 "largeSourceUrl": null,
                 "sources": [
                     {
-                        "url": "https://d2o906d8ln7ui1.cloudfront.net/images/details_bt3.png",
+                        "url": "https://1904upload.s3.amazonaws.com/PinkFeather.png",
                         "size": "small",
                         "widthPixels": 0,
                         "heightPixels": 0
                     },
                     {
-                        "url": "https://d2o906d8ln7ui1.cloudfront.net/images/details_bt3.png",
+                        "url": "https://1904upload.s3.amazonaws.com/PinkFeather.png",
                         "size": "large",
                         "widthPixels": 0,
                         "heightPixels": 0
@@ -345,24 +356,30 @@ aplJson = `{
                 ]
             },
             "textContent": {
-                "title": {
-                    "type": "SSML",
+                "subheader": {
+                    "type": "Text",
+                    "text": "Monday, August 26, 2019"
+                },
+				"title": {
+                    "type": "Text",
                     "text": "Daniel Dorsey"
                 },
                 "subtitle": {
-                    "type": "SSML",
+                    "type": "Text",
                     "text": "From: Laura Tromben"
                 },
                 "primaryText": {
-                    "type": "SSML",
+                    "type": "Text",
                     "text": " Praise "
                 },
-                "bulletPoint": {
-                    "type": "SSML",
-                    "text": "• Being super patient and helping me with Code with Pride "
-                }
+                "bulletPoints": [
+					{
+                    	"type": "Text",
+                    	"text": "• Being super patient and helping me with Code with Pride "
+                	}
+				]
             },
-            "logoUrl": "https://d2o906d8ln7ui1.cloudfront.net/images/cheeseskillicon.png",
+            "logoUrl": "https://1904upload.s3.amazonaws.com/1904labsNoTag_darkBG.png",
             "hintText": "Try, \"Alexa, tickle me pink\""
         }
     }

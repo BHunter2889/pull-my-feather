@@ -1,2 +1,9 @@
+# Serverless directories
+.serverless
+
+# Intellij Garbage
 .idea
 *.iml
+apl_template_export (4).json
+
+pulled-apl.json
