@@ -5,6 +5,7 @@ import (
 	crand "crypto/rand"
 	"encoding/binary"
 	"encoding/json"
+	"fmt"
 	"github.com/BHunter2889/go-alexa-devkit/alexa"
 	"github.com/aws/aws-lambda-go/lambda"
 	"log"
@@ -13,6 +14,8 @@ import (
 )
 
 //go:generate go run scripts/includeJson.go
+
+const pullFeatherIntentTitle = "Tickled Pink Award Winner"
 
 type Feather struct {
 	Time      time.Time `json:"Time"`
@@ -31,7 +34,7 @@ func IntentDispatcher(ctx context.Context, request alexa.Request) alexa.Response
 	var response alexa.Response
 	switch request.Body.Intent.Name {
 	case "PullFeatherIntent":
-		log.Print("INTENT_DISPATCH: TodaysFishRatingIntent")
+		log.Print("INTENT_DISPATCH: PullFeatherIntent")
 		response = HandlePullFeatherIntent(ctx, request)
 	case alexa.HelpIntent:
 		log.Print("INTENT_DISPATCH: HelpIntent")
@@ -40,7 +43,7 @@ func IntentDispatcher(ctx context.Context, request alexa.Request) alexa.Response
 		log.Print("INTENT_DISPATCH: AboutIntent")
 		response = HandleAboutIntent(ctx, request)
 	default:
-		log.Print("INTENT_DISPATCH: Default Response")
+		log.Print("INTENT_DISPATCH: Default Response (PullFeatherIntent)")
 		response = HandlePullFeatherIntent(ctx, request)
 	}
 	log.Print("RESPONSE: ", response)
@@ -49,12 +52,12 @@ func IntentDispatcher(ctx context.Context, request alexa.Request) alexa.Response
 
 // TODO
 func HandleAboutIntent(ctx context.Context, request alexa.Request) alexa.Response {
-	return alexa.Response{}
+	return HandlePullFeatherIntent(ctx, request)
 }
 
 // TODO
 func HandleHelpIntent(ctx context.Context, request alexa.Request) alexa.Response {
-	return alexa.Response{}
+	return HandlePullFeatherIntent(ctx, request)
 }
 
 func HandlePullFeatherIntent(ctx context.Context, request alexa.Request) alexa.Response {
@@ -68,13 +71,35 @@ func HandlePullFeatherIntent(ctx context.Context, request alexa.Request) alexa.R
 	date := metaFeather.Time.Format("Monday, Jan 2, 2006")
 	log.Print(date)
 
+	ssmlBuilder := alexa.SSMLBuilder{}
+	ssmlBuilder.Say("And the winner is... ") // TODO: Excited
+	ssmlBuilder.Pause("300")
+	ssmlBuilder.Say(metaFeather.Recipient) // TODO: Exclaim!
+	ssmlBuilder.Pause("500")
+	ssmlBuilder.Say(fmt.Sprintf("Awarded by %s", metaFeather.Author))
+	ssmlBuilder.Pause("750")
+	ssmlBuilder.Say(metaFeather.Body)
+	ssmlBuilder.Pause("750")
+	ssmlBuilder.Say("Congratulations!") // TODO: Exclaim
+	ssml := ssmlBuilder.Build()
+
+	speechTransformer := alexa.NewSSMLToSpeechTransformer()
+	tl := make([]alexa.Transformer, 0)
+	tl = append(tl, speechTransformer)
+
 	rd := alexa.Directive{}
 	if err := alexa.ExtractNewRenderDocDirectiveFromString("tickled-pink", aplJson, &rd); err != nil {
 		log.Print("ERROR READING APL TEMPLATE", err)
 	}
 
-	resp := alexa.NewAPLResponse("_SSML_PLACEHOLDER_", alexa.NewDirectivesList("Tickled Pink Award Winner", rd))
-	// TODO: Populate response
+	rd.SetBodyContentTitleText(metaFeather.Recipient)
+	rd.SetBodyContentSubtitle(fmt.Sprintf("Awarded By: %s", metaFeather.Author))
+	rd.SetBodyContentPrimaryText(metaFeather.Title)
+	rd.AddBodyContentBullets(metaFeather.Body)
+	rd.DataSources.TemplateData.Properties.SSML = ssml
+	rd.DataSources.TemplateData.Transformers = tl
+
+	resp := alexa.NewAPLResponse(ssml, alexa.NewDirectivesList("Tickled Pink Award Winner", rd))
 	return resp
 }
 
