@@ -190,7 +190,7 @@ const (
                                             "type": "Text",
                                             "text": "<b>${payload.bodyTemplateData.textContent.subheader.text}</b>",
                                             "style": "textStylePrimary",
-                                            "color": "#4dd2ff",
+                                            "color": "#62A0A5",
                                             "width": "90vw",
                                             "textAlign": "center"
                                         },
@@ -275,7 +275,7 @@ const (
                                                     "type": "Text",
                                                     "text": "<b>${payload.bodyTemplateData.textContent.subheader.text}</b>",
                                                     "style": "textStylePrimary",
-                                                    "color": "#4dd2ff"
+                                                    "color": "#62A0A5"
                                                 },
                                                 {
                                                     "type": "Text",
@@ -300,6 +300,86 @@ const (
                                                     "paddingTop": "@bulletPointPaddingTop",
                                                     "paddingRight": "@paddingRight",
                                                     "style": "textStylePrimary"
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    ]
+                },
+				{
+					"when": "${@viewportProfile == @tvLandscapeXLarge}",
+                    "type": "Container",
+                    "width": "100vw",
+                    "height": "100vh",
+                    "items": [
+                        {
+                            "type": "Image",
+                            "source": "${payload.bodyTemplateData.backgroundImage.sources[0].url}",
+                            "scale": "best-fill",
+                            "width": "100vw",
+                            "height": "100vh",
+                            "position": "absolute"
+                        },
+                        {
+                            "type": "AlexaHeader",
+                            "headerTitle": "${payload.bodyTemplateData.title}",
+                            "headerAttributionImage": "${payload.bodyTemplateData.logoUrl}"
+                        },
+                        {
+                            "type": "Container",
+                            "direction": "row",
+                            "paddingLeft": "@paddingLeft40",
+                            "paddingRight": "@paddingRight72",
+                            "grow": 1,
+                            "items": [
+                                {
+                                    "type": "Image",
+                                    "source": "${payload.bodyTemplateData.image.sources[0].url}",
+                                    "width": "35vw",
+                                    "height": "65vh",
+                                    "scale": "best-fit",
+                                    "align": "center"
+                                },
+                                {
+                                    "type": "ScrollView",
+                                    "height": "60vh",
+                                    "shrink": 1,
+                                    "item": [
+                                        {
+                                            "type": "Container",
+                                            "items": [
+                                                {
+                                                    "type": "Text",
+                                                    "text": "<b>${payload.bodyTemplateData.textContent.subheader.text}</b>",
+                                                    "style": "textStyleSecondaryHint",
+                                                    "color": "#62A0A5"
+                                                },
+                                                {
+                                                    "type": "Text",
+                                                    "text": "<b>${payload.bodyTemplateData.textContent.title.text}</b>",
+                                                    "style": "textStyleBodySecondary"
+                                                },
+                                                {
+                                                    "type": "Text",
+                                                    "text": "${payload.bodyTemplateData.textContent.subtitle.text}",
+                                                    "style": "textStyleSecondaryHint"
+                                                },
+                                                {
+                                                    "type": "Text",
+                                                    "text": "${payload.bodyTemplateData.textContent.primaryText.text}",
+                                                    "paddingTop": "@primaryTextPaddingTop",
+													"paddingRight": "@paddingRight",
+                                                    "style": "textStylePrimary"
+                                                },
+                                                {
+                                                    "type": "Text",
+                                                    "text": "${payload.bodyTemplateData.textContent.bulletPoints[0].text}",
+                                                    "paddingTop": "@bulletPointPaddingTop",
+                                                    "paddingRight": "@paddingRight",
+                                                    "style": "textStyleSecondary"
                                                 }
                                             ]
                                         }
