@@ -72,7 +72,7 @@ func HandlePullFeatherIntent(ctx context.Context, request alexa.Request) alexa.R
 	log.Print(date)
 
 	ssmlBuilder := alexa.SSMLBuilder{}
-	ssmlBuilder.Say("And the winner is... ") // TODO: Excited
+	ssmlBuilder.Say("And <prosody pitch='medium'> the winner </prosody> <prosody pitch='high' rate='x-slow'> is... </prosody> ") // TODO: Excited
 	ssmlBuilder.Pause("300")
 	ssmlBuilder.Say(metaFeather.Recipient) // TODO: Exclaim!
 	ssmlBuilder.Pause("500")
